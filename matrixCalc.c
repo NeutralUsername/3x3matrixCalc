@@ -132,13 +132,9 @@ void printMatrix(int length, int *matrix) {
     int linebreak = 0;
     for(int i = 0; i < length; i++) {
         printf("%d\t", matrix[i]);
-        if(linebreak == 2) {
+        if(linebreak == 2) 
             printf("\n");
-            linebreak = 0;
-        } 
-        else {
-            linebreak++;
-        }
+        linebreak = (linebreak + 1) % 3;
     }
     printf("\n");
 }
