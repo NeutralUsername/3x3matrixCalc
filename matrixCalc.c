@@ -37,7 +37,7 @@ int main(int argc, char *argv[]){
 
 FILE *loadMatrix(char identifier) {
     char filename[13];
-    sprintf(filename, "matrix_%c.txt\0", identifier); // create filename from identifier
+    sprintf(filename, "matrix_%c.txt", identifier); // create filename from identifier
     FILE *fp = fopen(filename, "r"); // open file
     return fp;
 }
@@ -104,7 +104,7 @@ char readMatrixIdentifier(char m) {
 void createMatrix(int *numbers, char identifier) {
     FILE *fp; //file pointer 
     char filename[13]; //filename. format : matrix_[identifier].txt
-    sprintf(filename, "matrix_%c.txt\0", identifier);  // create filename from identifier
+    sprintf(filename, "matrix_%c.txt", identifier);  // create filename from identifier
     fp = fopen(filename, "w"); 
     for(int i = 0; i < 9; i++) {
         fprintf(fp, "%d ", numbers[i]);
