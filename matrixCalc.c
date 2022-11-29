@@ -8,11 +8,13 @@ FILE *loadMatrix(char identifier);
 int *getMatrixFromStream(FILE *fp);
 int *multiply3x3Matrices(int *matrixA, int* matrixB);
 char readMatrixIdentifier(char m);
+int *readMatrixValues();
 
 int main(int argc, char *argv[]){
+    printf("enter identifiers for matrix A and B and save multiplication result to new matrix. create new matrix with '+'. abort with 'ctrl-c'\n");
     FILE *fpA;
     FILE *fpB;
-    while(1) {
+    while(1) { // Loops forever until user kills process
         do {
             fpA = loadMatrix(readMatrixIdentifier('A'));
         } while(fpA == NULL);
@@ -31,6 +33,28 @@ int main(int argc, char *argv[]){
         free(resultMatrix);
     }
     return 0;
+}
+
+char readMatrixIdentifier(char m) {
+    char c;
+    char t; //temp to clear buffer
+    while(1) {
+        if(m == 'A' || m == 'B')
+            printf("enter matrix %c identifier:", m);
+        else printf("enter new matrix identifier:");
+        c = getchar();
+        if((isalpha(c) || isdigit(c))) {
+            while((t = getchar()) != '\n' && t != EOF); // clear buffer
+            return c;
+        }
+        else if(c == '+') {
+            while((t = getchar()) != '\n' && t != EOF); // clear buffer
+            int *nrs = readMatrixValues();
+            createMatrix(nrs, readMatrixIdentifier('+'));
+            free(nrs);
+        } 
+        else while((t = getchar()) != '\n' && t != EOF); // clear buffer
+    }
 }
 
 FILE *loadMatrix(char identifier) {
@@ -75,28 +99,6 @@ int *readMatrixValues(){
         printMatrix(i+1, nrs);
     }
     return nrs;
-}
-
-char readMatrixIdentifier(char m) {
-    char c;
-    char t; //temp to clear buffer
-    while(1) {
-        if(m == 'A' || m == 'B')
-            printf("enter matrix %c identifier:", m);
-        else printf("enter new matrix identifier:");
-        c = getchar();
-        if((isalpha(c) || isdigit(c))) {
-            while((t = getchar()) != '\n' && t != EOF); // clear buffer
-            return c;
-        }
-        else if(c == '+') {
-            while((t = getchar()) != '\n' && t != EOF); // clear buffer
-            int *nrs = readMatrixValues();
-            createMatrix(nrs, readMatrixIdentifier('+'));
-            free(nrs);
-        } 
-        else while((t = getchar()) != '\n' && t != EOF); // clear buffer
-    }
 }
 
 void createMatrix(int *numbers, char identifier) {
